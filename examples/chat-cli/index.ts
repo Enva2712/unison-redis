@@ -1,4 +1,4 @@
-import { syncOverRedis } from "../src";
+import { syncOverRedis } from "unison-redis";
 import { createInterface } from "readline";
 import { createClient } from "redis";
 import { Observable, Subject, interval } from "rxjs";
@@ -17,9 +17,9 @@ import { map, filter } from "rxjs/operators";
 
   rl.question("Username: ", async (username) => {
     const messages$ = new Observable<string>((subscriber) => {
-      rl.on("line", subscriber.next);
-      rl.on("error", subscriber.error);
-      rl.on("close", subscriber.complete);
+      rl.on("line", (line) => subscriber.next(line));
+      rl.on("error", (err) => subscriber.error(err));
+      rl.on("close", () => subscriber.complete());
     });
 
     await redisConnection;
@@ -27,7 +27,7 @@ import { map, filter } from "rxjs/operators";
     messages$
       .pipe(
         map((message) => ({ message, username })),
-        syncOverRedis(client, "all-messages"),
+        syncOverRedis(client, "messages"),
         filter((message) => message.username !== username),
         map(({ username, message }) => `${username}: ${message}`)
       )

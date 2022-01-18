@@ -14,7 +14,7 @@ import {
 } from "./interface";
 import { clientEventsByType, filterByRoom, createServer } from "./util";
 import { createClient } from "redis";
-import { syncOverRedis } from "../../src";
+import { syncOverRedis } from "unison-redis";
 
 (async () => {
   const client = createClient();
@@ -67,6 +67,7 @@ import { syncOverRedis } from "../../src";
   });
 
   server.listen(8080);
+  console.log('server listening on localhost:8080')
 })().catch((err) => {
   console.error(err);
   process.exit(1);

@@ -46,19 +46,27 @@ export function createServer(
 
   wss.on("connection", (ws) => {
     const clientMessages$ = new Subject<RawData>();
-    ws.on("message", clientMessages$.next);
-    ws.on("error", clientMessages$.error);
-    ws.on("close", clientMessages$.complete);
+    ws.on("message", (message) => clientMessages$.next(message));
+    ws.on("error", (err) => clientMessages$.error(err));
+    ws.on("close", () => clientMessages$.complete());
 
     const replies$ = onConnection(clientMessages$);
     replies$.subscribe({
-      next: ws.send,
+      next: (message) => {
+        ws.send(message);
+        console.log("sending", message);
+      },
       error(err) {
         console.error(err);
         ws.close();
       },
-      complete: ws.close,
+      complete: () => ws.close(),
     });
+  });
+
+  server.on("request", (req, res) => {
+    res.writeHead(200);
+    res.end("Connect over ws to send and recieve events");
   });
 
   return server;
