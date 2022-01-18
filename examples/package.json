@@ -1,0 +1,13 @@
+{
+  "name": "examples",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "superstruct": "^0.15.3",
+    "ws": "^8.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.10",
+    "@types/ws": "^8.2.2"
+  }
+}

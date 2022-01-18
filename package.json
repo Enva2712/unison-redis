@@ -1,0 +1,31 @@
+{
+  "name": "unison-redis",
+  "version": "0.0.1",
+  "description": "Synchronize observables across machines using redis",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "ava",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "Evan Rusmisel <evanrusmisel@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "redis": "^4.0.2",
+    "rxjs": "^7.5.2"
+  },
+  "devDependencies": {
+    "ava": "^4.0.1",
+    "prettier": "^2.5.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
+  },
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
+  }
+}
